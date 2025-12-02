@@ -1,0 +1,179 @@
+.posts-list {
+  padding: 0;
+}
+
+.posts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.posts-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.create-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #facc15;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.create-button:hover {
+  background: #f1b301;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+}
+
+.error-message {
+  padding: 16px;
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 8px;
+  color: #ff4444;
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.posts-table {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.posts-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.posts-table thead {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.posts-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.posts-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.posts-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.post-title {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge.published {
+  background: rgba(0, 255, 0, 0.15);
+  color: #00ff00;
+}
+
+.status-badge.draft {
+  background: rgba(255, 255, 0, 0.15);
+  color: #ffff00;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 18px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.action-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.action-btn.edit svg {
+  color: #facc15;
+  fill: none;
+  stroke: currentColor;
+}
+
+.action-btn.delete svg {
+  color: #ff4444;
+  fill: none;
+  stroke: currentColor;
+}
+
+.action-btn.edit {
+  background: rgba(250, 204, 21, 0.15);
+  color: #facc15;
+}
+
+.action-btn.edit:hover {
+  background: rgba(250, 204, 21, 0.25);
+}
+
+.action-btn.delete {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4444;
+}
+
+.action-btn.delete:hover {
+  background: rgba(255, 0, 0, 0.25);
+}
+
+.posts-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 40px;
+  min-height: 400px;
+}
+
+
+
