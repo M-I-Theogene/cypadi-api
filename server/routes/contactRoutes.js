@@ -7,11 +7,19 @@ const {
   CONTACT_SMTP_HOST = "mail.cypadi.com",
   CONTACT_SMTP_PORT = "465",
   CONTACT_SMTP_USER = "info@cypadi.com",
-  CONTACT_SMTP_PASS = "Cypadi@2030",
+  CONTACT_SMTP_PASS, // Must be set via environment variable - no default for security
   CONTACT_SMTP_SECURE,
   CONTACT_NOTIFY_TO,
   CONTACT_BRAND_NAME = "Cypadi",
 } = process.env;
+
+// Validate required environment variables in production
+if (process.env.NODE_ENV === "production" && !CONTACT_SMTP_PASS) {
+  console.error(
+    "ERROR: CONTACT_SMTP_PASS environment variable is required in production!"
+  );
+  throw new Error("CONTACT_SMTP_PASS is required in production");
+}
 
 const smtpPort = Number(CONTACT_SMTP_PORT);
 const useSecure =
@@ -26,6 +34,12 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: CONTACT_SMTP_USER,
     pass: CONTACT_SMTP_PASS,
+  },
+  connectionTimeout: 10000, // 10 seconds
+  greetingTimeout: 10000, // 10 seconds
+  socketTimeout: 10000, // 10 seconds
+  tls: {
+    rejectUnauthorized: false, // Allow self-signed certificates if needed
   },
 });
 
@@ -175,14 +189,26 @@ router.post("/", async (req, res) => {
     });
   } catch (error) {
     console.error("Contact form error:", error);
+
+    // Provide more specific error messages
+    let errorMessage = "We couldn't send your message. Please try again later.";
+
+    if (error.code === "ETIMEDOUT" || error.code === "ECONNREFUSED") {
+      errorMessage =
+        "Email service is temporarily unavailable. Please try again later or contact us directly.";
+      console.error(
+        `SMTP connection failed to ${CONTACT_SMTP_HOST}:${smtpPort}`
+      );
+    } else if (error.code === "EAUTH") {
+      errorMessage =
+        "Email authentication failed. Please check SMTP credentials.";
+    }
+
     return res.status(500).json({
       success: false,
-      message: "We couldn't send your message. Please try again later.",
+      message: errorMessage,
     });
   }
 });
 
 export default router;
-
-
-
