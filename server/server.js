@@ -12,8 +12,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB (non-blocking - won't crash app if connection fails)
+connectDB().catch((error) => {
+  console.error("Failed to connect to MongoDB:", error.message);
+  // Don't exit - let the app continue so health check can still respond
+});
 
 // Middleware - CORS configuration for production and development
 app.use(
@@ -40,11 +43,22 @@ app.use("/api/blog", blogRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/contact", contactRoutes);
 
+// Root route for quick testing
+app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "Cypadi Blog API is running",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "Cypadi Blog API is running" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Bind to 0.0.0.0 to accept connections from Render
+const HOST = process.env.HOST || "0.0.0.0";
+app.listen(PORT, HOST, () => {
+  console.log(`Server running on ${HOST}:${PORT}`);
 });
